@@ -65,7 +65,9 @@ namespace Aroris_Platformer_Project.Src.Screens
 
         void CheckCollisions()
         {
+            //Check player collision with Ground
 
+            //Check player collision with enemies
         }
     }
 }
