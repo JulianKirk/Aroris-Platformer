@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Aroris_Platformer_Project.Src.Entities;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Collections;
 using MonoGame.Extended.Screens;
@@ -16,11 +17,22 @@ namespace Aroris_Platformer_Project.Src.Screens
 
         public MainScreen(Game1 game) : base(game) { }
 
-        public Deque<Entity> entities = new Deque<Entity>();
+        Player _Player;
+
+        public Deque<Entity> entities = new Deque<Entity>(); //For running update and draw for everything, including stuff that isn't a platform or enemy
+
+        //Lists for collision - IFL this isn't the most efficient way to do this
+        //public Deque<Entity> platforms = new Deque<Entity>();
+        //public Deque<Entity> enemies = new Deque<Entity>();
 
         public override void Initialize()
         {
-            entities.AddToFront(new Player(Content));
+            _Player = new Player(Content);
+            entities.AddToFront(_Player);
+
+            var Block = new Block(Content, new Vector2(1700, 900));
+            entities.AddToFront(Block);
+
             base.Initialize();
         }
 
@@ -35,6 +47,8 @@ namespace Aroris_Platformer_Project.Src.Screens
             {
                 entity.Update(gameTime);
             }
+
+            CheckCollisions();
         }
 
         public override void Draw(GameTime gameTime)
@@ -47,6 +61,11 @@ namespace Aroris_Platformer_Project.Src.Screens
             }
 
             Game._spriteBatch.End();
+        }
+
+        void CheckCollisions()
+        {
+
         }
     }
 }

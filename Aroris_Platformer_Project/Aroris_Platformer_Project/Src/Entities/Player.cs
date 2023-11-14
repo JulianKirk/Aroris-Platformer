@@ -9,7 +9,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Aroris_Platformer_Project.Src
+namespace Aroris_Platformer_Project.Src.Entities
 {
     public class Player : Entity
     {
@@ -19,7 +19,7 @@ namespace Aroris_Platformer_Project.Src
         {
             _height = 64;
             _width = 64;
-            _position = new Vector2(960 - (_height/2), 540 - (_width/2));
+            _position = new Vector2(960 - _height / 2, 540 - _width / 2);
 
             _velocity = new Vector2(0, 100f);
         }
@@ -31,8 +31,6 @@ namespace Aroris_Platformer_Project.Src
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-
             if (Keyboard.GetState().GetPressedKeyCount() > 0)
             {
                 Vector2 movementVector = new Vector2(0, 0);
@@ -46,11 +44,13 @@ namespace Aroris_Platformer_Project.Src
                 {
                     _velocity.X = -_walkSpeed;
                 }
-            } 
+            }
             else
             {
                 _velocity.X = 0f; //This implementation can easily be super sus in the future - overrides any other horizontal velocity changes
             }
+
+            base.Update(gameTime);
         }
     }
 }

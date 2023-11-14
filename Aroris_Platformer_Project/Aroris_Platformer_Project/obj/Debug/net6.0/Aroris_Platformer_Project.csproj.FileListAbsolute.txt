@@ -29,3 +29,4 @@ C:\Users\proga\Documents\Aroris-Platformer\Aroris_Platformer_Project\Aroris_Plat
 C:\Users\proga\Documents\Aroris-Platformer\Aroris_Platformer_Project\Aroris_Platformer_Project\bin\Debug\net6.0\MonoGame.Extended.Tiled.dll
 C:\Users\proga\Documents\Aroris-Platformer\Aroris_Platformer_Project\Aroris_Platformer_Project\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\proga\Documents\Aroris-Platformer\Aroris_Platformer_Project\Aroris_Platformer_Project\bin\Debug\net6.0\Content\PrototypeArt\character_roundPurple.xnb
+C:\Users\proga\Documents\Aroris-Platformer\Aroris_Platformer_Project\Aroris_Platformer_Project\bin\Debug\net6.0\Content\PrototypeArt\tile_brick.xnb

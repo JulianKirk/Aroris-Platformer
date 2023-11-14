@@ -5,8 +5,10 @@
   <Config />
   <SourceFiles>
     <File>C:/Users/proga/Documents/Aroris-Platformer/Aroris_Platformer_Project/Aroris_Platformer_Project/Content/PrototypeArt/character_roundPurple.png</File>
+    <File>C:/Users/proga/Documents/Aroris-Platformer/Aroris_Platformer_Project/Aroris_Platformer_Project/Content/PrototypeArt/tile_brick.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

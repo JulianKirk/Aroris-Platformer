@@ -35,7 +35,7 @@ namespace Aroris_Platformer_Project
 
             base.Initialize();
 
-            
+            LoadMainScreen();
         }
 
         protected override void LoadContent()
@@ -52,10 +52,10 @@ namespace Aroris_Platformer_Project
 
             // TODO: Add your update logic here
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            /*if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 LoadMainScreen();
-            }
+            }*/
 
             base.Update(gameTime);
         }

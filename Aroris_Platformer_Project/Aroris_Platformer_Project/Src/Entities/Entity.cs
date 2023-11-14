@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Aroris_Platformer_Project.Src
+namespace Aroris_Platformer_Project.Src.Entities
 {
     public class Entity
     {
@@ -26,7 +26,7 @@ namespace Aroris_Platformer_Project.Src
         public Texture2D _texture;
 
         public Entity(ContentManager Content)
-        {            
+        {
             LoadContent(Content);
             //Initializing can just be done in the inherited constructor
         }
@@ -36,7 +36,7 @@ namespace Aroris_Platformer_Project.Src
 
         }
 
-        public virtual void Update(GameTime gameTime) 
+        public virtual void Update(GameTime gameTime)
         {
             _position += _velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
@@ -44,6 +44,14 @@ namespace Aroris_Platformer_Project.Src
         public virtual void Draw(GameTime gameTime, SpriteBatch _spriteBatch) //Probably won't need to be overriden for most early cases
         {
             _spriteBatch.Draw(_texture, _position, Color.White);
+        }
+
+        public bool Collides(Entity otherEntity) //AABB collision
+        {
+            return _position.X < otherEntity._position.X + otherEntity._width &&
+                    _position.X + _width > otherEntity._position.X &&
+                    _position.Y < otherEntity._position.Y + otherEntity._height &&
+                    _position.Y + _height > otherEntity._position.Y;
         }
     }
 }
