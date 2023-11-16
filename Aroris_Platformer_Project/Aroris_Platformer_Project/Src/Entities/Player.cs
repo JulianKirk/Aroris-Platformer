@@ -75,17 +75,18 @@ namespace Aroris_Platformer_Project.Src.Entities
 
             switch(direction)
             {
-                case 0:
+                case 0: //No collision
                     return;
-                case 1:
+                case 1: //Up
                     _velocity.Y = 0f;
                     isOnTheGround = true;
                     break;
-                case 2:
+                case 2: //Right
                     break;
-                case 3:
+                case 3: //Down
+                    _velocity.Y = 0f;
                     break;
-                case 4:
+                case 4: //Left
                     break;
             }
         }
