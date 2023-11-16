@@ -51,13 +51,12 @@ namespace Aroris_Platformer_Project.Src.Screens
 
         public override void Update(GameTime gameTime)
         {
-
             foreach (Entity entity in entities)
             {
                 entity.Update(gameTime);
             }
 
-            CheckCollisions(gameTime); //Ideal to run AFTER all entities update for appropriate velocity overrides
+            CheckCollisions(gameTime); //This is sus rn coz it rans after entity Update - e.g. AFTER gravity speed is already applied to the player
 
             //Debug.WriteLine(entities.Count); -- CONFIRMED THAT LEVELGEN IS ADDING TO THE ENTITIES LIST
         }
@@ -81,6 +80,9 @@ namespace Aroris_Platformer_Project.Src.Screens
             //Check player collision with Ground
             foreach (Entity entity in platforms)
             {
+                _Player.CollideWithPlatform(entity);
+                
+                /*
                 if (_Player.Collides(entity))
                 {
                     //Player block collision logic
@@ -89,16 +91,13 @@ namespace Aroris_Platformer_Project.Src.Screens
                     //Move the player back 0.02 seconds worth of distance - Stop player movement
                     //_Player._position -= _Player._velocity * (float)gameTime.ElapsedGameTime.TotalSeconds * 0.02f; 
 
-                    //CHECK WHICH SIDE IT COLLIDED WITH
-
-                    
-
                     _Player._velocity.Y = 0f;
 
                     _Player.isOnTheGround = true;
 
                     break; //It isn't necessary to check anymore when we know the player is on the ground
                 }
+                */
             }
 
             foreach (Entity entity in enemies) //Will have to change this to use an Enemy type to implement damage later

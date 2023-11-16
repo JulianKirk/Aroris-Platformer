@@ -67,6 +67,29 @@ namespace Aroris_Platformer_Project.Src.Entities
             base.Update(gameTime);
         }
 
+        public void CollideWithPlatform(Entity entity)
+        {
+            isOnTheGround = false;
+
+            int direction = CollideWithSolid(entity); 
+
+            switch(direction)
+            {
+                case 0:
+                    return;
+                case 1:
+                    _velocity.Y = 0f;
+                    isOnTheGround = true;
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+            }
+        }
+
         void Jump()
         {
             _velocity.Y = -150f;
