@@ -76,6 +76,8 @@ namespace Aroris_Platformer_Project.Src.Screens
 
         void CheckCollisions(GameTime gameTime) //This does not currently take into account collision of player and enemy spawned items
         {
+            _Player.isOnTheGround = false;
+
             //Check player collision with Ground
             foreach (Entity entity in platforms)
             {
@@ -87,7 +89,15 @@ namespace Aroris_Platformer_Project.Src.Screens
                     //Move the player back 0.02 seconds worth of distance - Stop player movement
                     //_Player._position -= _Player._velocity * (float)gameTime.ElapsedGameTime.TotalSeconds * 0.02f; 
 
+                    //CHECK WHICH SIDE IT COLLIDED WITH
+
+                    
+
                     _Player._velocity.Y = 0f;
+
+                    _Player.isOnTheGround = true;
+
+                    break; //It isn't necessary to check anymore when we know the player is on the ground
                 }
             }
 

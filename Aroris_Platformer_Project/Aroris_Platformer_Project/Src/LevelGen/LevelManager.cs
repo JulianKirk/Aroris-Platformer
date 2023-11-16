@@ -38,6 +38,11 @@ namespace Aroris_Platformer_Project.Src.LevelGen
                 newLevel.tileMap[i, 15] = Content.Load<Texture2D>("PrototypeArt/tile_brick");
             }
 
+            for (int i = 0; i < 15; i++)
+            {
+                newLevel.tileMap[i, 13] = Content.Load<Texture2D>("PrototypeArt/tile_brick");
+            }
+
             return newLevel;
         }
 

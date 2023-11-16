@@ -15,13 +15,17 @@ namespace Aroris_Platformer_Project.Src.Entities
     {
         private float _walkSpeed = 300f;
 
+        public bool isOnTheGround;
+
         public Player(ContentManager Content, Vector2 position) : base(Content)
         {
             _height = 64;
             _width = 64;
             _position = new Vector2(position.X - _width, position.Y - _height / 2); //Centres it on that spawn position, not consistent with block tho - maybe change
 
-            _velocity = new Vector2(0, 100f);
+            _velocity = new Vector2(0, 0f);
+
+            isOnTheGround = false; //False initially - WATCH THIS for possible bugs
         }
 
         protected override void LoadContent(ContentManager Content)
@@ -31,6 +35,11 @@ namespace Aroris_Platformer_Project.Src.Entities
 
         public override void Update(GameTime gameTime)
         {
+            if (!isOnTheGround)
+            {
+                _velocity.Y += CONSTANTS.kGravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
             if (Keyboard.GetState().GetPressedKeyCount() > 0)
             {
                 Vector2 movementVector = new Vector2(0, 0);
@@ -52,10 +61,15 @@ namespace Aroris_Platformer_Project.Src.Entities
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
-                _velocity.Y = -100f;
+                Jump();
             }
 
             base.Update(gameTime);
+        }
+
+        void Jump()
+        {
+            _velocity.Y = -150f;
         }
     }
 }
