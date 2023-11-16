@@ -27,11 +27,11 @@ namespace Aroris_Platformer_Project.Src.Screens
         public List<Block> platforms = new List<Block>();
         public List<Entity> enemies = new List<Entity>();
 
-        LevelGen.LevelGenerator _levelGenerator;
+        LevelGen.LevelManager _levelGenerator;
 
         public override void Initialize()
         {
-            _levelGenerator = new LevelGen.LevelGenerator(Content, entities, platforms, enemies);
+            _levelGenerator = new LevelGen.LevelManager(Content, entities, platforms, enemies);
 
             _levelGenerator.SpawnLevel(_levelGenerator.GenerateRandomLevel());
 
@@ -51,12 +51,13 @@ namespace Aroris_Platformer_Project.Src.Screens
 
         public override void Update(GameTime gameTime)
         {
+
             foreach (Entity entity in entities)
             {
                 entity.Update(gameTime);
             }
 
-            CheckCollisions();
+            CheckCollisions(gameTime); //Ideal to run AFTER all entities update for appropriate velocity overrides
 
             //Debug.WriteLine(entities.Count); -- CONFIRMED THAT LEVELGEN IS ADDING TO THE ENTITIES LIST
         }
@@ -73,7 +74,7 @@ namespace Aroris_Platformer_Project.Src.Screens
             Game._spriteBatch.End();
         }
 
-        void CheckCollisions() //This does not currently take into account collision of player and enemy spawned items
+        void CheckCollisions(GameTime gameTime) //This does not currently take into account collision of player and enemy spawned items
         {
             //Check player collision with Ground
             foreach (Entity entity in platforms)
@@ -82,6 +83,11 @@ namespace Aroris_Platformer_Project.Src.Screens
                 {
                     //Player block collision logic
                     //  - Maybe just move the player to slightly in the opposite direction of its movement and set its velocity to zero
+
+                    //Move the player back 0.02 seconds worth of distance - Stop player movement
+                    //_Player._position -= _Player._velocity * (float)gameTime.ElapsedGameTime.TotalSeconds * 0.02f; 
+
+                    _Player._velocity.Y = 0f;
                 }
             }
 

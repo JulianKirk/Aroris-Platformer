@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Aroris_Platformer_Project.Src.LevelGen
 {
-    public class LevelGenerator
+    public class LevelManager
     {
         ContentManager Content;
 
@@ -20,7 +20,7 @@ namespace Aroris_Platformer_Project.Src.LevelGen
         List<Block> _platforms;
         List<Entity> _enemies;
 
-        public LevelGenerator(ContentManager content, List<Entity> entities, List<Block> platforms, List<Entity> enemies) 
+        public LevelManager(ContentManager content, List<Entity> entities, List<Block> platforms, List<Entity> enemies) 
         {
             Content = content;
 

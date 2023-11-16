@@ -50,6 +50,11 @@ namespace Aroris_Platformer_Project.Src.Entities
                 _velocity.X = 0f; //This implementation can easily be super sus in the future - overrides any other horizontal velocity changes
             }
 
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                _velocity.Y = -100f;
+            }
+
             base.Update(gameTime);
         }
     }
