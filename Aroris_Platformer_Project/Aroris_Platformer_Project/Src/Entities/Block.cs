@@ -11,17 +11,14 @@ namespace Aroris_Platformer_Project.Src.Entities
 {
     public class Block : Entity
     {
-        public Block(ContentManager Content, Vector2 position) : base(Content)
+        public Block(ContentManager Content, Vector2 position, Texture2D texture) : base(Content)
         {
             _width = 64f;
             _height = 64f;
 
-            _position = position;
-        }
+            _texture = texture;
 
-        protected override void LoadContent(ContentManager Content)
-        {
-            _texture = Content.Load<Texture2D>("PrototypeArt/tile_brick");
+            _position = position;
         }
 
         public override void Update(GameTime gameTime) 
@@ -29,6 +26,6 @@ namespace Aroris_Platformer_Project.Src.Entities
             //Overriding this as empty without running base.Update so it is a little faster
         }
 
-        //Basically will just act as a sprite with collision logic
+        //Basically will just act as an entity where you input the texture
     }
 }

@@ -15,11 +15,11 @@ namespace Aroris_Platformer_Project.Src.Entities
     {
         private float _walkSpeed = 300f;
 
-        public Player(ContentManager Content) : base(Content)
+        public Player(ContentManager Content, Vector2 position) : base(Content)
         {
             _height = 64;
             _width = 64;
-            _position = new Vector2(960 - _height / 2, 540 - _width / 2);
+            _position = new Vector2(position.X - _width, position.Y - _height / 2); //Centres it on that spawn position, not consistent with block tho - maybe change
 
             _velocity = new Vector2(0, 100f);
         }
