@@ -55,20 +55,25 @@ namespace Aroris_Platformer_Project.Src.Entities
             _spriteBatch.Draw(_texture, _position, Color.White);
         }
 
-        public bool Collides(Entity otherEntity, bool rootCheck) //AABB collision
+        public bool CollidesBase(Entity otherEntity)
         {
-            if ( _position.X < otherEntity._position.X + otherEntity._width &&
+            return _position.X < otherEntity._position.X + otherEntity._width &&
                     _position.X + _width > otherEntity._position.X &&
                     _position.Y < otherEntity._position.Y + otherEntity._height &&
-                    _position.Y + _height > otherEntity._position.Y)
+                    _position.Y + _height > otherEntity._position.Y;
+        }
+
+        public bool Collides(Entity otherEntity, bool rootCheck) //AABB collision
+        {
+            if (CollidesBase(otherEntity))
             {
                 return true;
             } 
-            else if (!rootCheck) //Check collision retroactively
+            else //Check collision retroactively
             {
                 for (int i = 0; i < CONSTANTS.kContinuousCollisionPrecision; i++)
                 {
-                    _positionLastFrame = _position - _velocity * 0.05f;
+                    //_positionLastFrame = _position - _velocity * 0.05f;
 
                     Entity tempEntity = new Entity(_content);
                     tempEntity._width = 4f;
@@ -76,7 +81,7 @@ namespace Aroris_Platformer_Project.Src.Entities
                     tempEntity._position.X = MathHelper.Lerp(_positionLastFrame.X, _position.X, i/CONSTANTS.kContinuousCollisionPrecision) - 2f;
                     tempEntity._position.Y = MathHelper.Lerp(_positionLastFrame.Y, _position.Y, i/CONSTANTS.kContinuousCollisionPrecision) - 2f;
 
-                    if (tempEntity.Collides(otherEntity, false))
+                    if (tempEntity.CollidesBase(otherEntity))
                     {
                         _position = _positionLastFrame;
 
