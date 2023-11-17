@@ -8,12 +8,13 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Aroris_Platformer_Project.Src.Entities
 {
     public class Player : Entity
     {
-        private float _walkSpeed = 300f;
+        private float _walkSpeed = 450f;
 
         public bool isOnTheGround;
 
@@ -37,6 +38,7 @@ namespace Aroris_Platformer_Project.Src.Entities
         {
             if (!isOnTheGround)
             {
+                Debug.WriteLine("Gravity is being applied");
                 _velocity.Y += CONSTANTS.kGravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
@@ -59,41 +61,46 @@ namespace Aroris_Platformer_Project.Src.Entities
                 _velocity.X = 0f; //This implementation can easily be super sus in the future - overrides any other horizontal velocity changes
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && isOnTheGround == true)
             {
                 Jump();
             }
 
+            Debug.WriteLine(isOnTheGround);
+
             base.Update(gameTime);
         }
 
-        public void CollideWithPlatform(Entity entity)
+        public void CollideWithPlatform(List<Block> solids)
         {
-            isOnTheGround = false;
-
-            int direction = CollideWithSolid(entity); 
+            int direction = CollideWithSolids(solids); 
 
             switch(direction)
             {
                 case 0: //No collision
+                    isOnTheGround = false;
                     return;
                 case 1: //Up
-                    _velocity.Y = 0f;
+                    _velocity.Y = _velocity.Y > 0 ? 0f : _velocity.Y; //Only stop it if it is going down
                     isOnTheGround = true;
                     break;
                 case 2: //Right
+                    _velocity.X = _velocity.X < 0 ? 0f : _velocity.X;
                     break;
                 case 3: //Down
-                    _velocity.Y = 0f;
+                    _velocity.Y = _velocity.Y < 0 ? 0f : _velocity.Y; //Only stop it if it is going up
                     break;
                 case 4: //Left
+                    _velocity.X = _velocity.X < 0 ? 0f : _velocity.X;
                     break;
             }
         }
 
         void Jump()
         {
-            _velocity.Y = -150f;
+            _velocity.Y = -400f;
+
+            Console.WriteLine("Jump");
         }
     }
 }

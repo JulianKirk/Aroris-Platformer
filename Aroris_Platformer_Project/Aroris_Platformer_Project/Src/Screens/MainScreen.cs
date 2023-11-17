@@ -24,14 +24,14 @@ namespace Aroris_Platformer_Project.Src.Screens
         public List<Entity> entities = new List<Entity>(); //For running update and draw for everything, including stuff that isn't a platform or enemy
 
         //Lists for collision - IFL this isn't the most efficient way to do this
-        public List<Block> platforms = new List<Block>();
+        public List<Block> solids = new List<Block>();
         public List<Entity> enemies = new List<Entity>();
 
         LevelGen.LevelManager _levelGenerator;
 
         public override void Initialize()
         {
-            _levelGenerator = new LevelGen.LevelManager(Content, entities, platforms, enemies);
+            _levelGenerator = new LevelGen.LevelManager(Content, entities, solids, enemies);
 
             _levelGenerator.SpawnLevel(_levelGenerator.GenerateRandomLevel());
 
@@ -75,30 +75,8 @@ namespace Aroris_Platformer_Project.Src.Screens
 
         void CheckCollisions(GameTime gameTime) //This does not currently take into account collision of player and enemy spawned items
         {
-            _Player.isOnTheGround = false;
-
             //Check player collision with Ground
-            foreach (Entity entity in platforms)
-            {
-                _Player.CollideWithPlatform(entity);
-                
-                /*
-                if (_Player.Collides(entity))
-                {
-                    //Player block collision logic
-                    //  - Maybe just move the player to slightly in the opposite direction of its movement and set its velocity to zero
-
-                    //Move the player back 0.02 seconds worth of distance - Stop player movement
-                    //_Player._position -= _Player._velocity * (float)gameTime.ElapsedGameTime.TotalSeconds * 0.02f; 
-
-                    _Player._velocity.Y = 0f;
-
-                    _Player.isOnTheGround = true;
-
-                    break; //It isn't necessary to check anymore when we know the player is on the ground
-                }
-                */
-            }
+            _Player.CollideWithPlatform(solids);
 
             foreach (Entity entity in enemies) //Will have to change this to use an Enemy type to implement damage later
             {

@@ -17,15 +17,15 @@ namespace Aroris_Platformer_Project.Src.LevelGen
         ContentManager Content;
 
         List<Entity> _entities;
-        List<Block> _platforms;
+        List<Block> _solids;
         List<Entity> _enemies;
 
-        public LevelManager(ContentManager content, List<Entity> entities, List<Block> platforms, List<Entity> enemies) 
+        public LevelManager(ContentManager content, List<Entity> entities, List<Block> solids, List<Entity> enemies) 
         {
             Content = content;
 
             _entities = entities;
-            _platforms = platforms;
+            _solids = solids;
             _enemies = enemies;
         }
 
@@ -83,7 +83,7 @@ namespace Aroris_Platformer_Project.Src.LevelGen
                             Content.Load<Texture2D>("PrototypeArt/tile_brick"));//levelToSpawn.tileMap[x, y]);
 
                         _entities.Add(newBlock);
-                        _platforms.Add(newBlock);
+                        _solids.Add(newBlock);
                     }
 
                     if (levelToSpawn.enemyMap[x, y] != null)
