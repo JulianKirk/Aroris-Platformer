@@ -91,7 +91,7 @@ namespace Aroris_Platformer_Project.Src.Entities
                     _velocity.Y = _velocity.Y < 0 ? 0f : _velocity.Y; //Only stop it if it is going up
                     break;
                 case 4: //Left
-                    _velocity.X = _velocity.X < 0 ? 0f : _velocity.X;
+                    _velocity.X = _velocity.X > 0 ? 0f : _velocity.X;
                     break;
             }
         }
