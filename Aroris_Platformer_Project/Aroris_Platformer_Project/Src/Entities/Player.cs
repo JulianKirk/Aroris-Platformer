@@ -18,15 +18,19 @@ namespace Aroris_Platformer_Project.Src.Entities
 
         public bool isOnTheGround;
 
+        float tempJumpCooldown = 0.1f;
+        float tempJumpRemainingCooldown;
+
         public Player(ContentManager Content, Vector2 position) : base(Content)
         {
             _height = 64;
-            _width = 64;
+            _width = 63;
             _position = new Vector2(position.X - _width, position.Y - _height / 2); //Centres it on that spawn position, not consistent with block tho - maybe change
 
             _velocity = new Vector2(0, 0f);
 
             isOnTheGround = false; //False initially - WATCH THIS for possible bugs
+            tempJumpRemainingCooldown = 0f;
         }
 
         protected override void LoadContent(ContentManager Content)
@@ -36,6 +40,8 @@ namespace Aroris_Platformer_Project.Src.Entities
 
         public override void Update(GameTime gameTime)
         {
+            tempJumpRemainingCooldown -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             if (!isOnTheGround)
             {
                 _velocity.Y += CONSTANTS.kGravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -59,9 +65,11 @@ namespace Aroris_Platformer_Project.Src.Entities
 
                 _velocity.X = movementVector.X;
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Space) && isOnTheGround == true)
+                if (Keyboard.GetState().IsKeyDown(Keys.Space) && isOnTheGround == true && tempJumpRemainingCooldown < 0)
                 {
                     Jump();
+
+                    tempJumpRemainingCooldown = tempJumpCooldown;
                 }
             }
             else
@@ -99,7 +107,7 @@ namespace Aroris_Platformer_Project.Src.Entities
 
         void Jump()
         {
-            _velocity.Y = -500f;
+            _velocity.Y = -1000f;
         }
     }
 }

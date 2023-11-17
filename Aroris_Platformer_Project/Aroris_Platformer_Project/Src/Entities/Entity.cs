@@ -5,6 +5,7 @@ using MonoGame.Extended;
 using MonoGame.Extended.Sprites;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,10 +26,16 @@ namespace Aroris_Platformer_Project.Src.Entities
 
         public Texture2D _texture;
 
+        private Vector2 _positionLastFrame;
+
+        private ContentManager _content;
+
         public Entity(ContentManager Content)
         {
             LoadContent(Content);
             //Initializing can just be done in the inherited constructor
+
+            _content = Content;
         }
 
         protected virtual void LoadContent(ContentManager Content)
@@ -38,6 +45,8 @@ namespace Aroris_Platformer_Project.Src.Entities
 
         public virtual void Update(GameTime gameTime)
         {
+            _positionLastFrame = _position;
+
             _position += _velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
@@ -46,12 +55,39 @@ namespace Aroris_Platformer_Project.Src.Entities
             _spriteBatch.Draw(_texture, _position, Color.White);
         }
 
-        public bool Collides(Entity otherEntity) //AABB collision
+        public bool Collides(Entity otherEntity, bool rootCheck) //AABB collision
         {
-            return _position.X < otherEntity._position.X + otherEntity._width &&
+            if ( _position.X < otherEntity._position.X + otherEntity._width &&
                     _position.X + _width > otherEntity._position.X &&
                     _position.Y < otherEntity._position.Y + otherEntity._height &&
-                    _position.Y + _height > otherEntity._position.Y;
+                    _position.Y + _height > otherEntity._position.Y)
+            {
+                return true;
+            } 
+            else if (!rootCheck) //Check collision retroactively
+            {
+                for (int i = 0; i < CONSTANTS.kContinuousCollisionPrecision; i++)
+                {
+                    _positionLastFrame = _position - _velocity * 0.05f;
+
+                    Entity tempEntity = new Entity(_content);
+                    tempEntity._width = 4f;
+                    tempEntity._width = 4f;
+                    tempEntity._position.X = MathHelper.Lerp(_positionLastFrame.X, _position.X, i/CONSTANTS.kContinuousCollisionPrecision) - 2f;
+                    tempEntity._position.Y = MathHelper.Lerp(_positionLastFrame.Y, _position.Y, i/CONSTANTS.kContinuousCollisionPrecision) - 2f;
+
+                    if (tempEntity.Collides(otherEntity, false))
+                    {
+                        _position = _positionLastFrame;
+
+                        Debug.WriteLine("Retroactive collision");
+
+                        return true;
+                    } 
+                }
+            }
+
+            return false;
         }
 
         public int CollideWithSolids(List<Block> solids) //0 - no collision 1 - top, 2 - right, 3 - down, 4 - left
@@ -65,7 +101,7 @@ namespace Aroris_Platformer_Project.Src.Entities
 
             foreach (Block solid in solids) //Linear search for the closest collision solid
             {
-                if (Collides(solid))
+                if (Collides(solid, true))
                 {
                     float tempVerticalDiff = solid._position.Y - _position.Y; //Positive = other entity is below
                     float tempHorizontalDiff = solid._position.X - _position.X;//Positive = other entity is to the right
@@ -86,7 +122,7 @@ namespace Aroris_Platformer_Project.Src.Entities
             {
                 if (verticalDiff > 0)
                 {
-                    if (Math.Abs(verticalDiff) > Math.Abs(horizontalDiff)) //Top Collision
+                    if (Math.Abs(verticalDiff) >= Math.Abs(horizontalDiff)) //Top Collision
                     {
                         _position.Y -= (_height / 2 + selectedSolid._height / 2) - Math.Abs(verticalDiff);
                         return 1;
@@ -107,7 +143,7 @@ namespace Aroris_Platformer_Project.Src.Entities
                 }
                 else
                 {
-                    if (Math.Abs(verticalDiff) > Math.Abs(horizontalDiff)) //Bottom Collision
+                    if (Math.Abs(verticalDiff) >= Math.Abs(horizontalDiff)) //Bottom Collision
                     {
                         _position.Y += (_height / 2 + selectedSolid._height / 2) - Math.Abs(verticalDiff);
                         return 3;

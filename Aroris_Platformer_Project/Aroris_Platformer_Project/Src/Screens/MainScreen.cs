@@ -59,20 +59,20 @@ namespace Aroris_Platformer_Project.Src.Screens
 
             if (secondTime > 1f)
             {
-                Debug.WriteLine(frames);
+                //Debug.WriteLine(frames);
 
                 secondTime = 0f;
                 frames = 0;
             }
 
-            CheckCollisions(gameTime);
+            //CheckCollisions(gameTime);
 
             foreach (Entity entity in entities)
             {
                 entity.Update(gameTime);
             }
 
-            //CheckCollisions(gameTime); //This is sus rn coz it rans after entity Update - e.g. AFTER gravity speed is already applied to the player
+            CheckCollisions(gameTime); 
 
             //Debug.WriteLine(entities.Count); -- CONFIRMED THAT LEVELGEN IS ADDING TO THE ENTITIES LIST
         }
@@ -96,7 +96,7 @@ namespace Aroris_Platformer_Project.Src.Screens
 
             foreach (Entity entity in enemies) //Will have to change this to use an Enemy type to implement damage later
             {
-                if (_Player.Collides(entity))
+                if (_Player.Collides(entity, true))
                 {
                     //Player enemy collision logic
                     //  - The player takes damage
