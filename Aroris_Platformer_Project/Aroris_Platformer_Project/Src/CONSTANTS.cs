@@ -8,6 +8,6 @@ namespace Aroris_Platformer_Project.Src
 {
     public static class CONSTANTS
     {
-        public static float kGravity = 200f;
+        public static float kGravity = 1000f;
     }
 }

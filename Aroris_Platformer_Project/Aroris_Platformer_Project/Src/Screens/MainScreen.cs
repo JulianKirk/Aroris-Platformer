@@ -35,7 +35,7 @@ namespace Aroris_Platformer_Project.Src.Screens
 
             _levelGenerator.SpawnLevel(_levelGenerator.GenerateRandomLevel());
 
-            _Player = new Player(Content, new Vector2(960, 540));
+            _Player = new Player(Content, new Vector2(960, 50));
             entities.Add(_Player);
 
             //var Block = new Block(Content, new Vector2(1700, 900), Content.Load<Texture2D>("PrototypeArt/tile_brick"));
@@ -49,14 +49,30 @@ namespace Aroris_Platformer_Project.Src.Screens
             base.LoadContent();
         }
 
+        float secondTime = 0f;
+        int frames = 0;
+
         public override void Update(GameTime gameTime)
         {
+            secondTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            frames++;
+
+            if (secondTime > 1f)
+            {
+                Debug.WriteLine(frames);
+
+                secondTime = 0f;
+                frames = 0;
+            }
+
+            CheckCollisions(gameTime);
+
             foreach (Entity entity in entities)
             {
                 entity.Update(gameTime);
             }
 
-            CheckCollisions(gameTime); //This is sus rn coz it rans after entity Update - e.g. AFTER gravity speed is already applied to the player
+            //CheckCollisions(gameTime); //This is sus rn coz it rans after entity Update - e.g. AFTER gravity speed is already applied to the player
 
             //Debug.WriteLine(entities.Count); -- CONFIRMED THAT LEVELGEN IS ADDING TO THE ENTITIES LIST
         }
