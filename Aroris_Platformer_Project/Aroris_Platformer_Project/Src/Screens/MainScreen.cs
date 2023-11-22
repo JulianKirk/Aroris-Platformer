@@ -72,7 +72,7 @@ namespace Aroris_Platformer_Project.Src.Screens
                 entity.Update(gameTime);
             }
 
-            CheckCollisions(gameTime); 
+            CheckCollisions(gameTime); //MUST happen after update - Because of _positionLastFrame
 
             //Debug.WriteLine(entities.Count); -- CONFIRMED THAT LEVELGEN IS ADDING TO THE ENTITIES LIST
         }

@@ -36,6 +36,8 @@ namespace Aroris_Platformer_Project.Src.Entities
             //Initializing can just be done in the inherited constructor
 
             _content = Content;
+
+            _positionLastFrame = _position;
         }
 
         protected virtual void LoadContent(ContentManager Content)
@@ -83,7 +85,7 @@ namespace Aroris_Platformer_Project.Src.Entities
 
                     if (tempEntity.CollidesBase(otherEntity))
                     {
-                        _position = _positionLastFrame;
+                        _position = tempEntity._position;
 
                         Debug.WriteLine("Retroactive collision");
 
@@ -111,7 +113,7 @@ namespace Aroris_Platformer_Project.Src.Entities
                     float tempVerticalDiff = solid._position.Y - _position.Y; //Positive = other entity is below
                     float tempHorizontalDiff = solid._position.X - _position.X;//Positive = other entity is to the right
 
-                    double tempTotalDiff = Math.Sqrt((double)((tempHorizontalDiff*tempHorizontalDiff) + (tempVerticalDiff*tempVerticalDiff)));
+                    double tempTotalDiff = Math.Sqrt((double)((tempHorizontalDiff * tempHorizontalDiff) + (tempVerticalDiff * tempVerticalDiff)));
                     if (tempTotalDiff > totalDiff)
                     {
                         totalDiff = (float)tempTotalDiff;
@@ -168,7 +170,7 @@ namespace Aroris_Platformer_Project.Src.Entities
                     }
                 }
             }
-            
+
             return 0;
         }
     }
